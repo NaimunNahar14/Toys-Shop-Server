@@ -74,7 +74,7 @@ async function run() {
 
         app.get('/alltoys', async (req, res) => {
             const result = await ToysCollection.find({}).toArray();
-            res.send(result);
+            res.send();
         })
 
         // app.get("/mytoys/:selleremail", async (req, res)=>{
