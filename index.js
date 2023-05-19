@@ -96,15 +96,7 @@ async function run() {
 
          })
 
-        //   app.get("/alltoys/:name", async(req, res) =>{
-        //     console.log(req.params.name);
-        //   })
-
-        // app.get("/mytoys/:selleremail", async (req, res)=>{
-        //     console.log(req.params.selleremail);
-        //     const result = await ToysCollection.find({selleremail: req.params.selleremail}).toArray();
-        //     res.send(result);
-        // })
+       
 
 
 
