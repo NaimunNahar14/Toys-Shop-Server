@@ -50,17 +50,17 @@ async function run() {
 
         });
 
-        app.delete('/toys/:id',async(req, res)=>{
+        app.delete('/toys/:id', async (req, res) => {
             const id = req.params.id;
-            const query = {_id:new ObjectId(id)}
+            const query = { _id: new ObjectId(id) }
             const result = await ToysCollection.deleteOne(query);
             res.send(result);
 
         })
 
-        app.patch('/toys/:id',async(req, res)=>{
+        app.patch('/toys/:id', async (req, res) => {
             const id = req.params.id;
-            const filter = {_id: new ObjectId(id)};
+            const filter = { _id: new ObjectId(id) };
             const updatedToy = req.body;
             console.log(updatedToy);
             const updateToy = {
@@ -78,25 +78,25 @@ async function run() {
             res.send(result);
         })
 
-        
-        app.get("/alltoys/:id", async(req, res) =>{
+
+        app.get("/alltoys/:id", async (req, res) => {
             console.log(req.params.id);
             const result = await ToysCollection.findOne({
                 _id: new ObjectId(req.params.id),
             });
-            res.send(result);     
-          })
+            res.send(result);
+        })
 
-         app.get('/toys/:id', async(req, res)=>{
+        app.get('/toys/:id', async (req, res) => {
             console.log(req.params.id);
             const result = await ToysCollection.findOne({
                 _id: new ObjectId(req.params.id),
             });
-            res.send(result);  
+            res.send(result);
 
-         })
+        })
 
-       
+
 
 
 
