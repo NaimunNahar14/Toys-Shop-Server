@@ -41,6 +41,7 @@ async function run() {
         });
 
 
+
         app.post('/toys', async (req, res) => {
             const addToy = req.body;
             console.log(addToy);
@@ -74,8 +75,17 @@ async function run() {
 
         app.get('/alltoys', async (req, res) => {
             const result = await ToysCollection.find({}).toArray();
-            res.send();
+            res.send(result);
         })
+
+        
+        app.get("/alltoys/:id", async(req, res) =>{
+            console.log(req.params.id);
+            const result = await ToysCollection.findOne({
+                _id: new ObjectId(req.params.id),
+            });
+            res.send(result);     
+          })
 
         // app.get("/mytoys/:selleremail", async (req, res)=>{
         //     console.log(req.params.selleremail);
