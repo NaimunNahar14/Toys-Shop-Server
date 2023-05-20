@@ -39,9 +39,6 @@ async function run() {
             res.send(result);
 
         });
-
-
-
         app.post('/toys', async (req, res) => {
             const addToy = req.body;
             console.log(addToy);
@@ -101,16 +98,16 @@ async function run() {
 
         })
 
-        app.put('/mytoys/:id', async(req, res)=>{
+        app.put('/mytoys/:id', async (req, res) => {
             const id = req.params.id;
-            const filter = {_id: new ObjectId(id)}
-            const options = {upsert: true};
+            const filter = { _id: new ObjectId(id) }
+            const options = { upsert: true };
             const updateToys = req.body;
             const Toys = {
-                $set:{
-                    ToyPrice:updateToys.price,
-                     quantity:updateToys.quantity,
-                      bio: updateToys.bio
+                $set: {
+                    ToyPrice: updateToys.price,
+                    quantity: updateToys.quantity,
+                    bio: updateToys.bio
                 }
             }
             const result = await ToysCollection.updateOne(filter, Toys, options);
@@ -119,10 +116,15 @@ async function run() {
         app.get('/mytoys', async (req, res) => {
             console.log(req.query.email);
             let query = {};
+            let sortDirection = -1;
             if (req.query?.email) {
                 query = { email: req.query.email }
+                // const sort = req?.query?.sort == 'true' ? 1: -1;
             }
-            const result = await ToysCollection.find(query).toArray();
+            if (req.query?.sort === 'true') {
+                sortDirection = 1;
+            }
+            const result = await ToysCollection.find(query).sort({ ToyPrice: sortDirection }).toArray();
             res.send(result);
 
         });
