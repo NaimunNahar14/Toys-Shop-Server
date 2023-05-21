@@ -28,6 +28,26 @@ async function run() {
         await client.connect();
         const ToysCollection = client.db('toyShop').collection('addToy');
 
+        const indexKeys = { ToyName: 1 };
+        const indexOptions = { name: "Toyname" };
+
+        const result = await ToysCollection.createIndex(indexKeys, indexOptions);
+
+
+        app.get("/toySearch/:text", async (req, res) => {
+            const searchText = req.params.text;
+
+            const result = await ToysCollection.find({
+                $or: [
+                    { ToyName: { $regex: searchText, $options: "i" } },
+                ],
+            }).toArray()
+            res.send(result);
+
+
+
+        })
+
         //ADDTOYS
         app.get('/toys', async (req, res) => {
             console.log(req.query.email);
@@ -72,8 +92,10 @@ async function run() {
 
         app.get('/alltoys', async (req, res) => {
             const result = await ToysCollection.find({}).limit(20).toArray();
+
             res.send(result);
         })
+
 
 
         app.get("/alltoys/:id", async (req, res) => {
@@ -116,17 +138,16 @@ async function run() {
         app.get('/mytoys', async (req, res) => {
             console.log(req.query.email);
             let query = {};
-            let sortDirection = -1;
+            // let sortDirection = -1;
             if (req.query?.email) {
                 query = { email: req.query.email }
                 // const sort = req?.query?.sort == 'true' ? 1: -1;
             }
-            if (req.query?.sort === 'true') {
+            if (req.query?.sort == 'true') {
                 sortDirection = 1;
             }
-            const result = await ToysCollection.find(query).sort({ ToyPrice: sortDirection }).toArray();
+            const result = await ToysCollection.find(query).sort({ "ToyPrice": sortDirection }).toArray();
             res.send(result);
-
         });
         app.delete('/mytoys/:id', async (req, res) => {
             const id = req.params.id;
